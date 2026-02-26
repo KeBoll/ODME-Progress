@@ -24,17 +24,19 @@ import java.awt.Component;
  */
 public class CustomIconRenderer extends DefaultTreeCellRenderer {
 
-	private static final long serialVersionUID = 1L;
-	private Icon entityIcon;
+    private static final long serialVersionUID = 1L;
+    private Icon entityIcon;
     private Icon specIcon;
     private Icon maspIcon;
     private Icon aspIcon;
+    private Icon behIcon;
 
     public CustomIconRenderer() { // throws MalformedURLException
         entityIcon = new ImageIcon(ODMEEditor.class.getClassLoader().getResource("images/en.png"));
         specIcon = new ImageIcon(ODMEEditor.class.getClassLoader().getResource("images/sp.png"));
         maspIcon = new ImageIcon(ODMEEditor.class.getClassLoader().getResource("images/ma.png"));
         aspIcon = new ImageIcon(ODMEEditor.class.getClassLoader().getResource("images/as16.png"));
+        behIcon = new ImageIcon(ODMEEditor.class.getClassLoader().getResource("images/switch.png"));
     }
 
     @Override
@@ -47,17 +49,18 @@ public class CustomIconRenderer extends DefaultTreeCellRenderer {
         if ((nodeName != null) && (!nodeName.trim().isEmpty())) {
             if (nodeName.startsWith("~")) {
                 setIcon(null);
-            } 
+            }
             else if (nodeName.endsWith("Spec")) {
                 setIcon(specIcon);
-            } 
+            }
             else if (nodeName.endsWith("MAsp")) {
                 setIcon(maspIcon);
-            } 
+            }
             else if (nodeName.endsWith("Dec")) {
                 setIcon(aspIcon);
-            }
-            else {
+            } else if (leaf) {
+                setIcon(behIcon);
+            } else {
                 setIcon(entityIcon);
             }
         }

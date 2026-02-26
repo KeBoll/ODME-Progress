@@ -145,18 +145,18 @@ public class BehaviourToTree  extends JPanel implements MouseListener{
 			TreePath treePath = entry.getKey();
 			Collection<String> values = entry.getValue();
 
-			String[] row = new String[treePath.getPathCount() + values.size()];
-
-			int index = 0;
-			for (Object pathComponent : treePath.getPath()) {
-				row[index++] = pathComponent.toString();
-			}
+//			String[] row = new String[treePath.getPathCount() + values.size()];
 
 			for (String value : values) {
-				row[index++] = value;
+				String[] row = new String[treePath.getPathCount() + 1];
+				int index = 0;
+				for (Object pathComponent : treePath.getPath()) {
+					row[index++] = pathComponent.toString();
+				}
+				row[index] = value;
+				resultList.add(row);
 			}
 
-			resultList.add(row);
 		}
 
 		return resultList.toArray(new String[0][0]);
@@ -198,22 +198,29 @@ public class BehaviourToTree  extends JPanel implements MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 
-        int x = (int) e.getPoint().getX();
-        int y = (int) e.getPoint().getY();
-        TreePath path = tree.getPathForLocation(x, y);
-        
-        if (path == null) {
-            tree.setCursor(Cursor.getDefaultCursor());
-            clickControl = 0;
+		int x = (int) e.getPoint().getX();
+		int y = (int) e.getPoint().getY();
+		TreePath path = tree.getPathForLocation(x, y);
 
-        } else {
-            tree.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            clickControl = 1;
-            String name = path.getLastPathComponent().toString();
-                       
-            ODMEBehaviourEditor.nodeBehaviour = name;
-            System.out.println(name);
-        }
+		if (path == null) {
+			tree.setCursor(Cursor.getDefaultCursor());
+			clickControl = 0;
+
+		} else {
+			tree.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			clickControl = 1;
+			String name = path.getLastPathComponent().toString();
+
+			DefaultMutableTreeNode selectedNode =
+					(DefaultMutableTreeNode) path.getLastPathComponent();
+
+			if(selectedNode.isLeaf()) {
+				ODMEBehaviourEditor.nodeBehaviour = name;
+			}
+
+//			ODMEBehaviourEditor.nodeBehaviour = name;
+			System.out.println(name);
+		}
 	}
 
 
@@ -249,24 +256,24 @@ public class BehaviourToTree  extends JPanel implements MouseListener{
 
 	class MyTreeModelListener implements TreeModelListener {
 
-        public void treeNodesChanged(TreeModelEvent e) {
-            DefaultMutableTreeNode node;
-            node = (DefaultMutableTreeNode) (e.getTreePath().getLastPathComponent());
+		public void treeNodesChanged(TreeModelEvent e) {
+			DefaultMutableTreeNode node;
+			node = (DefaultMutableTreeNode) (e.getTreePath().getLastPathComponent());
 
-            /*
-             * If the event lists children, then the changed node is the child of the node
-             * we've already gotten. Otherwise, the changed node and the specified node are
-             * the same.
-             */
-            int index = e.getChildIndices()[0];
-            node = (DefaultMutableTreeNode) (node.getChildAt(index));
-        }
+			/*
+			 * If the event lists children, then the changed node is the child of the node
+			 * we've already gotten. Otherwise, the changed node and the specified node are
+			 * the same.
+			 */
+			int index = e.getChildIndices()[0];
+			node = (DefaultMutableTreeNode) (node.getChildAt(index));
+		}
 
-        public void treeNodesInserted(TreeModelEvent e) {}
+		public void treeNodesInserted(TreeModelEvent e) {}
 
-        public void treeNodesRemoved(TreeModelEvent e) {}
+		public void treeNodesRemoved(TreeModelEvent e) {}
 
-        public void treeStructureChanged(TreeModelEvent e) {}
-    }
+		public void treeStructureChanged(TreeModelEvent e) {}
+	}
 
 }

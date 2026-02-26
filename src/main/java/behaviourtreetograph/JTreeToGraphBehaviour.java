@@ -190,7 +190,7 @@ public class JTreeToGraphBehaviour {
 										80, 30, "Entity");
 								behaviourNodeNumber++;
 							} else if (ODMEBehaviourEditor.nodeAddDecorator.equals("Decorator")) {
-								benhaviourGraph.insertVertex(behaviourParent, "Loop repeat ",  "Loop", e.getX() - 40,
+								benhaviourGraph.insertVertex(behaviourParent, "Decorator",  "Decorator", e.getX() - 40,
 										e.getY(), 80, 30, "Decorator");
 								behaviourNodeNumber++;
 							} else if (ODMEBehaviourEditor.nodeAddDecorator.equals("Selector")) {
