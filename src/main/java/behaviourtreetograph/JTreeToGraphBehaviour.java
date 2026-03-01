@@ -3,6 +3,8 @@ package behaviourtreetograph;
 
 import java.awt.*;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -254,18 +256,41 @@ public class JTreeToGraphBehaviour {
 				} // button 1 end
 
 				// right click events using pop up menu
-//				if (e.getButton() == MouseEvent.BUTTON3) {
-////                        	// double click handling
-//					if (e.getClickCount() == 2) {
-//						mxCell clikedCell = (mxCell) cell;
-//						if (clikedCell.isVertex()) {
-//
-//							Object position = behaviourGraphComponent.getCellAt(e.getX(), e.getY());
-//							JtreeToGraphGeneral.renameCell(position);
-//
-//						}
-//					}
-//				}
+				if (e.getButton() == MouseEvent.BUTTON1) {
+//                        	// double click handling
+					if (e.getClickCount() == 2) {
+						mxCell clickedCell = (mxCell) cell;
+						String style = clickedCell.getStyle();
+						if (style.equals("Decorator")) {
+							String condition = JOptionPane.showInputDialog("Condition / Loop", clickedCell.getValue());
+							clickedCell.setValue("Decorator_" + condition);
+							behaviourGraphComponent.refresh();
+						}
+					}
+				}
+
+				JPopupMenu popupMenu = new JPopupMenu();
+				JMenuItem menuItem = new JMenuItem();
+				if (e.getButton() == MouseEvent.BUTTON3) {
+					mxCell clickedCell = (mxCell) cell;
+					String style = clickedCell.getStyle();
+					if (style.equals("Entity")) {
+						popupMenu.add(menuItem);
+						popupMenu.show(e.getComponent(), e.getX(), e.getY());
+					}
+				}
+
+				menuItem.addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						JTextField behaviourAttributeName = new JTextField();
+						JTextField behaviourAttributeValue = new JTextField();
+						Object[] message = {"name", behaviourAttributeName, "value", behaviourAttributeValue};
+						int input = JOptionPane.showConfirmDialog(null, message, "Add Behavior Attribute", JOptionPane.OK_CANCEL_OPTION);
+					}
+				});
+
+
 
 			}
 			// mouse event 2
