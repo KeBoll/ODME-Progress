@@ -66,7 +66,13 @@ public class JtreeToGraphGeneral {
         Element thisElement = null;
 
         String nodeName = benhaviourGraph.getModel().getValue(cell).toString();
-        thisElement = thisDoc.createElement(nodeName);
+        if(nodeName.contains("Decorator")){
+            thisElement=thisDoc.createElement("Decorator");
+            String condition = cell.getValue().toString().replaceFirst("Decorator_", "");
+            thisElement.setAttribute("condition",condition);
+        }  else {
+            thisElement = thisDoc.createElement(nodeName);
+        }
 
         Object[] outgoing = benhaviourGraph.getOutgoingEdges(cell);
 
@@ -85,7 +91,13 @@ public class JtreeToGraphGeneral {
         Element thisElement = null;
 
         String nodeName = benhaviourGraph.getModel().getValue(cell).toString();
-        thisElement = thisDoc.createElement(nodeName);
+        if(nodeName.contains("Decorator")){
+            thisElement=thisDoc.createElement("Decorator");
+            String condition = cell.getValue().toString().replaceFirst("Decorator_", "");
+            thisElement.setAttribute("condition",condition);
+        }  else {
+            thisElement = thisDoc.createElement(nodeName);
+        }
 
         Object[] outgoing = benhaviourGraph.getOutgoingEdges(cell);
 
@@ -94,7 +106,7 @@ public class JtreeToGraphGeneral {
                 Object targetCell = benhaviourGraph.getModel().getTerminal(outgoing[i], false);
                 // for next call
                 mxCell targetCell2 = (mxCell) targetCell;
-                thisElement.appendChild(behaviourChildNodes(thisDoc, targetCell2));
+                thisElement.appendChild(childNodes(thisDoc, targetCell2));
             }
         }
         return thisElement;
@@ -106,26 +118,22 @@ public class JtreeToGraphGeneral {
         Element thisElement = null;
 
         String nodeName = benhaviourGraph.getModel().getValue(cell).toString();
-        thisElement = thisDoc.createElement(nodeName);
+        if(nodeName.contains("Decorator")){
+            thisElement=thisDoc.createElement("Decorator");
+            String condition = cell.getValue().toString().replaceFirst("Decorator_", "");
+            thisElement.setAttribute("condition",condition);
+        }  else {
+            thisElement = thisDoc.createElement(nodeName);
+        }
 
         Object[] outgoing = benhaviourGraph.getOutgoingEdges(cell);
 
         if (outgoing.length > 0) {
             for (int i = 0; i < outgoing.length; i++) {
                 Object targetCell = benhaviourGraph.getModel().getTerminal(outgoing[i], false);
+                // for next call
                 mxCell targetCell2 = (mxCell) targetCell;
-
-                if (targetCell2.getId().startsWith("uniformity")) {
-                    if (targetCell2.getId().endsWith("RefNode")) {
-
-                    }
-                    else {
-                        continue;
-                    }
-                } 
-                else {
-                    thisElement.appendChild(childNodesWithUniformity(thisDoc, targetCell2));
-                }
+                thisElement.appendChild(childNodes(thisDoc, targetCell2));
             }
         }
         return thisElement;
