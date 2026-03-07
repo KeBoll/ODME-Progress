@@ -19,6 +19,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static behaviourtreetograph.JTreeToGraphBehaviour.behaviorsWithAttributes;
 import static behaviourtreetograph.JTreeToGraphBehaviour.benhaviourGraph;
 import static odme.jtreetograph.JtreeToGraphVariables.*;
 
@@ -43,7 +44,7 @@ public class JtreeToGraphGeneral {
     public static void zoomIn() {
         behaviourGraphComponent.zoomIn();
     }
-    
+
     public static void zoomOut() {
         behaviourGraphComponent.zoomOut();
     }
@@ -56,12 +57,12 @@ public class JtreeToGraphGeneral {
             System.out.println("Cannot redo ");
         }
     }
-    
+
     public static void undo() {
         if (undoManager.canUndo())
             undoManager.undo();
     }
-    
+
     public static Element childNodes(Document thisDoc, mxCell cell) {
         Element thisElement = null;
 
@@ -70,7 +71,32 @@ public class JtreeToGraphGeneral {
             thisElement=thisDoc.createElement("Decorator");
             String condition = cell.getValue().toString().replaceFirst("Decorator_", "");
             thisElement.setAttribute("condition",condition);
-        }  else {
+        }  else if (cell.getStyle().equals("Entity")) {
+            thisElement = thisDoc.createElement(nodeName);
+
+            for (int i = 0; i < behaviorsWithAttributes.size(); i++) {
+                if (behaviorsWithAttributes.get(i).getBehaviorName().equals(nodeName)) {
+                    String attributes = "";
+                    for (int j = 0; j < behaviorsWithAttributes.get(i).getAttributes().size(); j++) {
+                        attributes += behaviorsWithAttributes.get(i).getAttributes().get(j).getName() + " = " + behaviorsWithAttributes.get(i).getAttributes().get(j).getValue() + "; ";
+                    }
+                    thisElement.setAttribute("Attributes", attributes);
+                }
+            }
+
+
+//            Element BehaviorAttributes = thisDoc.createElement("Attributes");
+//            String attributes = "";
+//            for (int i = 0; i < behaviorsWithAttributes.size(); i++) {
+//                if (behaviorsWithAttributes.get(i).getBehaviorName().equals(nodeName)) {
+//                    for (int j = 0; j < behaviorsWithAttributes.get(i).getAttributes().size(); j++) {
+//                        attributes += behaviorsWithAttributes.get(i).getAttributes().get(j).getName() + " = " + behaviorsWithAttributes.get(i).getAttributes().get(j).getValue() + " ";
+//                    }
+//                }
+//            }
+//            BehaviorAttributes.setAttribute("Attributes", attributes);
+//            thisElement.appendChild(BehaviorAttributes);
+        }   else {
             thisElement = thisDoc.createElement(nodeName);
         }
 
@@ -95,7 +121,30 @@ public class JtreeToGraphGeneral {
             thisElement=thisDoc.createElement("Decorator");
             String condition = cell.getValue().toString().replaceFirst("Decorator_", "");
             thisElement.setAttribute("condition",condition);
-        }  else {
+        }  else if (cell.getStyle().equals("Entity")) {
+            thisElement = thisDoc.createElement(nodeName);
+
+            for (int i = 0; i < behaviorsWithAttributes.size(); i++) {
+                if (behaviorsWithAttributes.get(i).getBehaviorName().equals(nodeName)) {
+                    String attributes = "";
+                    for (int j = 0; j < behaviorsWithAttributes.get(i).getAttributes().size(); j++) {
+                        attributes += behaviorsWithAttributes.get(i).getAttributes().get(j).getName() + " = " + behaviorsWithAttributes.get(i).getAttributes().get(j).getValue() + "; ";
+                    }
+                    thisElement.setAttribute("Attributes", attributes);
+                }
+            }
+//            Element BehaviorAttributes = thisDoc.createElement("Attributes");
+//            String attributes = "";
+//            for (int i = 0; i < behaviorsWithAttributes.size(); i++) {
+//                if (behaviorsWithAttributes.get(i).getBehaviorName().equals(nodeName)) {
+//                    for (int j = 0; j < behaviorsWithAttributes.get(i).getAttributes().size(); j++) {
+//                        attributes += behaviorsWithAttributes.get(i).getAttributes().get(j).getName() + " = " + behaviorsWithAttributes.get(i).getAttributes().get(j).getValue() + " ";
+//                    }
+//                }
+//            }
+//            BehaviorAttributes.setAttribute("Attributes", attributes);
+//            thisElement.appendChild(BehaviorAttributes);
+        }   else {
             thisElement = thisDoc.createElement(nodeName);
         }
 
@@ -122,7 +171,30 @@ public class JtreeToGraphGeneral {
             thisElement=thisDoc.createElement("Decorator");
             String condition = cell.getValue().toString().replaceFirst("Decorator_", "");
             thisElement.setAttribute("condition",condition);
-        }  else {
+        }  else if (cell.getStyle().equals("Entity")) {
+            thisElement = thisDoc.createElement(nodeName);
+
+            for (int i = 0; i < behaviorsWithAttributes.size(); i++) {
+                if (behaviorsWithAttributes.get(i).getBehaviorName().equals(nodeName)) {
+                    String attributes = "";
+                    for (int j = 0; j < behaviorsWithAttributes.get(i).getAttributes().size(); j++) {
+                        attributes += behaviorsWithAttributes.get(i).getAttributes().get(j).getName() + " = " + behaviorsWithAttributes.get(i).getAttributes().get(j).getValue() + "; ";
+                    }
+                    thisElement.setAttribute("Attributes", attributes);
+                }
+            }
+//            Element BehaviorAttributes = thisDoc.createElement("Attributes");
+//            String attributes = "";
+//            for (int i = 0; i < behaviorsWithAttributes.size(); i++) {
+//                if (behaviorsWithAttributes.get(i).getBehaviorName().equals(nodeName)) {
+//                    for (int j = 0; j < behaviorsWithAttributes.get(i).getAttributes().size(); j++) {
+//                        attributes += behaviorsWithAttributes.get(i).getAttributes().get(j).getName() + " = " + behaviorsWithAttributes.get(i).getAttributes().get(j).getValue() + " ";
+//                    }
+//                }
+//            }
+//            BehaviorAttributes.setAttribute("Attributes", attributes);
+//            thisElement.appendChild(BehaviorAttributes);
+        }   else {
             thisElement = thisDoc.createElement(nodeName);
         }
 
@@ -138,8 +210,8 @@ public class JtreeToGraphGeneral {
         }
         return thisElement;
     }
-    
- // for modifying the generated xml output
+
+    // for modifying the generated xml output
     public static void xmlOutputForXSD() {
         PrintWriter f0 = null;
         try {
@@ -151,7 +223,7 @@ public class JtreeToGraphGeneral {
 
             f0 = new PrintWriter(
                     new FileWriter(path));
-        } 
+        }
         catch (IOException e1) {
             e1.printStackTrace();
         }
@@ -166,7 +238,7 @@ public class JtreeToGraphGeneral {
 
             in = new Scanner(new File(path));
 
-        } 
+        }
         catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -189,10 +261,10 @@ public class JtreeToGraphGeneral {
                 }
                 else if (result.endsWith("MAsp")) {
                     mod = "</multiAspect>";
-                } 
+                }
                 else if (result.endsWith("Spec")) {
                     mod = "</specialization>";
-                } 
+                }
                 else {
                     if (result.endsWith("Seq")) {
                         continue;
@@ -200,68 +272,68 @@ public class JtreeToGraphGeneral {
                     mod = "</entity>";
                 }
                 f0.println(mod);
-            } 
+            }
             else if (line.startsWith("<")) {
                 if (line.endsWith("/>")) {
                     String result = line.replaceAll("[</>]", "");
 
                     if (result.endsWith("Var")) {
                         String novarresult = result.replace("Var", "");
-                        
+
                         String[] properties = novarresult.split(",");
                         if (properties[1].equals("string") || properties[1].equals("boolean")) {
 
                             f0.println("<var name=\"" + properties[0] + "\" " + "default=\"" + properties[2]
-                                       + "\"></var>");
+                                    + "\"></var>");
                         }
                         else {
 
                             f0.println("<var name=\"" + properties[0] + "\" " + "default=\"" + properties[2]
-                                       + "\" " + "lower=\"" + properties[3] + "\" " + "upper=\""
-                                       + properties[4] + "\" " + "></var>");
+                                    + "\" " + "lower=\"" + properties[3] + "\" " + "upper=\""
+                                    + properties[4] + "\" " + "></var>");
                         }
 
-                    } 
+                    }
                     else if (result.endsWith("RefNode")) {
                         String noRefNoderesult = result.replace("RefNode", "");
 
                         if (noRefNoderesult.endsWith("Dec")) {
                             f0.println("<aspect name=\"" + noRefNoderesult + "\" ref=\"" + noRefNoderesult
-                                       + "\"/>");
+                                    + "\"/>");
                         }
                         else if (noRefNoderesult.endsWith("MAsp")) {
                             f0.println(
                                     "<multiAspect name=\"" + noRefNoderesult + "\" ref=\"" + noRefNoderesult
-                                    + "\"/>");
-                        } 
+                                            + "\"/>");
+                        }
                         else if (noRefNoderesult.endsWith("Spec")) {
                             f0.println("<specialization name=\"" + noRefNoderesult + "\" ref=\""
-                                       + noRefNoderesult + "\"/>");
+                                    + noRefNoderesult + "\"/>");
                         }
                         else {
                             f0.println("<entity name=\"" + noRefNoderesult + "\" ref=\"" + noRefNoderesult
-                                       + "\"/>");
+                                    + "\"/>");
                         }
                     } else {}
-                } 
+                }
                 else {
                     String result = line.replaceAll("[</>]", "");
 
                     if (result.endsWith("Dec")) {
                         mod = "<aspect name=\"" + result + "\">";
-                    } 
+                    }
                     else if (result.endsWith("MAsp")) {
                         mod = "<multiAspect name=\"" + result + "\">";
-                    } 
+                    }
                     else if (result.endsWith("Spec")) {
                         mod = "<specialization name=\"" + result + "\">";
-                    } 
+                    }
                     else {
                         if (first == 0) {
                             mod = "<entity xmlns:vc=\"http://www.w3.org/2007/XMLSchema-versioning\""
-                                  + " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""
-                                  //+ " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema\""
-                                  + " xsi:noNamespaceSchemaLocation=\"ses.xsd\" name=\"" + result + "\">";
+                                    + " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\""
+                                    //+ " xmlns:xsi=\"http://www.w3.org/2001/XMLSchema\""
+                                    + " xsi:noNamespaceSchemaLocation=\"ses.xsd\" name=\"" + result + "\">";
                             first = 1;
                         }
                         else {
@@ -278,7 +350,7 @@ public class JtreeToGraphGeneral {
         in.close();
         f0.close();
     }
-    
+
     public static void writeSaveModuleToFileAsXML(Object obj) {
         mxCell cell = (mxCell) obj;
         String fileName = cell.getValue().toString();
@@ -295,7 +367,7 @@ public class JtreeToGraphGeneral {
             JtreeToGraphSave.saveModuleFromCurrentModelAsXML(obj, selectedFile.getAbsolutePath());
         }
     }
-    
+
     public static mxCell getRootNode() {
         Object[] cells = benhaviourGraph.getChildVertices(benhaviourGraph.getDefaultParent()); // getSelectionCells();
 
@@ -322,7 +394,7 @@ public class JtreeToGraphGeneral {
         parentPath = FindByName.path;
         return parentPath;
     }
-    
+
     /**
      * Rename node name of both graph node and jtree node. If the graph root has
      * child then it will show an message that node having child can't be renamed.
@@ -332,16 +404,16 @@ public class JtreeToGraphGeneral {
      */
     public static void renameCell(Object pos) {
         mxCell cell = (mxCell) pos;
-       
+
         if (cell.getId().equals("rootnode")) {
             Object[] outgoing = graph.getOutgoingEdges(cell);
             if (outgoing.length == 0) {
                 String newName = JOptionPane.showInputDialog(Main.frame, "New Name", "Rename Node",
                         JOptionPane.PLAIN_MESSAGE);
-                
+
                 if (newName == null)
                     return;
-                
+
                 else if (Character.isDigit(newName.trim().charAt(0))) {
                     JOptionPane.showMessageDialog(Main.frame,
                             "Node's name should not start with a number!", "Name Error", JOptionPane.ERROR_MESSAGE);
@@ -362,7 +434,7 @@ public class JtreeToGraphGeneral {
                     graph.getModel().beginUpdate();
                     try {
                         graph.getModel().setValue(cell, newName);
-                    } 
+                    }
                     finally {
                         graph.getModel().endUpdate();
                     }
@@ -373,18 +445,18 @@ public class JtreeToGraphGeneral {
                 JOptionPane.showMessageDialog(Main.frame,
                         "You can't rename a root node having child node.");
             }
-        } 
+        }
         else {
 
             String newName = JOptionPane
                     .showInputDialog(Main.frame, "New Name", "Rename Node", JOptionPane.PLAIN_MESSAGE);
-            
+
             if (newName == null)
                 return;
-            
+
             else if (Character.isDigit(newName.trim().charAt(0))) {
                 JOptionPane.showMessageDialog(Main.frame,
-                            "Node's name should not start with a number!", "Name Error", JOptionPane.ERROR_MESSAGE);
+                        "Node's name should not start with a number!", "Name Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -400,12 +472,12 @@ public class JtreeToGraphGeneral {
                     if (!newName.endsWith("Dec")) {
                         newName = newName + "Dec";
                     }
-                } 
+                }
                 else if (currentName.endsWith("Spec")) {
                     if (!newName.endsWith("Spec")) {
                         newName = newName + "Spec";
                     }
-                } 
+                }
                 else if (currentName.endsWith("MAsp")) {
                     if (!newName.endsWith("MAsp")) {
                         newName = newName + "MAsp";
@@ -445,7 +517,7 @@ public class JtreeToGraphGeneral {
                 try {
                     graph.getModel().setValue(cell, newName);
 
-                } 
+                }
                 finally {
                     graph.getModel().endUpdate();
                 }

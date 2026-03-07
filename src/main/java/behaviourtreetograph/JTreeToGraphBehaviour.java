@@ -8,7 +8,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 
 import javax.swing.*;
 import javax.swing.event.TreeModelEvent;
@@ -47,6 +49,8 @@ public class JTreeToGraphBehaviour {
 	public JTree tree;
 
 	private Toolkit toolkit;
+
+	public static List<BehaviorAttributeOverview> behaviorsWithAttributes = new ArrayList<>();
 
 	JTreeToGraphBehaviour(){
 
@@ -212,8 +216,8 @@ public class JTreeToGraphBehaviour {
 								if(ODMEBehaviourEditor.nodeBehaviour.contains("Dec")) {
 								}else if (ODMEBehaviourEditor.nodeBehaviour.contains("MAsp")) {}
 								else
-									if (ODMEBehaviourEditor.nodeBehaviour.contains("Spec")) {}
-									else {
+								if (ODMEBehaviourEditor.nodeBehaviour.contains("Spec")) {}
+								else {
 									benhaviourGraph.insertVertex(behaviourParent, ODMEBehaviourEditor.nodeBehaviour, ODMEBehaviourEditor.nodeBehaviour, e.getX() - 40, e.getY(),
 											80, 30, "Entity");
 									behaviourNodeNumber++;
@@ -287,6 +291,24 @@ public class JTreeToGraphBehaviour {
 						JTextField behaviourAttributeValue = new JTextField();
 						Object[] message = {"name", behaviourAttributeName, "value", behaviourAttributeValue};
 						int input = JOptionPane.showConfirmDialog(null, message, "Add Behavior Attribute", JOptionPane.OK_CANCEL_OPTION);
+
+
+						BehaviorAttribute newAttribute = new BehaviorAttribute(behaviourAttributeName.getText(), behaviourAttributeValue.getText());
+						String behaviorName = ((mxCell) cell).getValue().toString();
+						boolean existing = false;
+						for (int i = 0; i < behaviorsWithAttributes.size(); i++) {
+							if (behaviorsWithAttributes.get(i).getBehaviorName().equals(behaviorName)) {
+								behaviorsWithAttributes.get(i).addAttribute(newAttribute);
+								existing = true;
+								System.out.println(behaviorsWithAttributes.get(i).getBehaviorName());
+							}
+						}
+						if (!existing) {
+							BehaviorAttributeOverview newBehaviorWithAttributes = new BehaviorAttributeOverview(behaviorName);
+							newBehaviorWithAttributes.addAttribute(newAttribute);
+							behaviorsWithAttributes.add(newBehaviorWithAttributes);
+
+						}
 					}
 				});
 
