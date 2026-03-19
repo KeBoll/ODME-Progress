@@ -31,6 +31,7 @@ import com.mxgraph.util.mxEventSource.mxIEventListener;
 import com.mxgraph.view.mxGraph;
 import com.mxgraph.view.mxStylesheet;
 
+import odeme.behaviour.BehaviourToTree;
 import odeme.behaviour.ODMEBehaviourEditor;
 
 import odme.core.UndoableTreeModel;
@@ -50,7 +51,7 @@ public class JTreeToGraphBehaviour {
 
 	private Toolkit toolkit;
 
-	public static List<BehaviorAttributeOverview> behaviorsWithAttributes = new ArrayList<>();
+	public static List<behaviourtreetograph.BehaviorAttributeOverview> behaviorsWithAttributes = new ArrayList<>();
 
 	JTreeToGraphBehaviour(){
 
@@ -182,6 +183,8 @@ public class JTreeToGraphBehaviour {
 				currentSelectedCell = (mxCell) cell; // this for console use
 
 				if (e.getButton() == MouseEvent.BUTTON1) {
+
+
 					if (cell == null) {
 
 						String ob = Integer.toString(behaviourNodeNumber);
@@ -270,6 +273,27 @@ public class JTreeToGraphBehaviour {
 							clickedCell.setValue("Decorator_" + condition);
 							behaviourGraphComponent.refresh();
 						}
+					} else {
+						if ((((mxCell) cell).getStyle().equals("Entity")) && (!((mxCell) cell).getValue().toString().equals("Events"))) {
+							BehaviourToTree.behaviorAttributeModel.setRowCount(0);
+//							Object[] behaviorAttributeSet = {((mxCell) cell).getValue().toString(), "a"};
+//							BehaviourToTree.behaviorAttributeModel.addRow(behaviorAttributeSet);
+
+							for (int i = 0; i < behaviorsWithAttributes.size(); i++) {
+								if (behaviorsWithAttributes.get(i).getBehaviorName().equals(((mxCell) cell).getValue().toString())) {
+									for (int j = 0; j < behaviorsWithAttributes.get(i).getAttributes().size(); j++) {
+										Object[] behaviorAttributeSet = {behaviorsWithAttributes.get(i).getAttributes().get(j).getName(), behaviorsWithAttributes.get(i).getAttributes().get(j).getValue()};
+										BehaviourToTree.behaviorAttributeModel.addRow(behaviorAttributeSet);
+									}
+								}
+							}
+
+
+
+						}
+
+
+
 					}
 				}
 
@@ -293,7 +317,7 @@ public class JTreeToGraphBehaviour {
 						int input = JOptionPane.showConfirmDialog(null, message, "Add Behavior Attribute", JOptionPane.OK_CANCEL_OPTION);
 
 
-						BehaviorAttribute newAttribute = new BehaviorAttribute(behaviourAttributeName.getText(), behaviourAttributeValue.getText());
+						behaviourtreetograph.BehaviorAttribute newAttribute = new behaviourtreetograph.BehaviorAttribute(behaviourAttributeName.getText(), behaviourAttributeValue.getText());
 						String behaviorName = ((mxCell) cell).getValue().toString();
 						boolean existing = false;
 						for (int i = 0; i < behaviorsWithAttributes.size(); i++) {
@@ -304,7 +328,7 @@ public class JTreeToGraphBehaviour {
 							}
 						}
 						if (!existing) {
-							BehaviorAttributeOverview newBehaviorWithAttributes = new BehaviorAttributeOverview(behaviorName);
+							behaviourtreetograph.BehaviorAttributeOverview newBehaviorWithAttributes = new behaviourtreetograph.BehaviorAttributeOverview(behaviorName);
 							newBehaviorWithAttributes.addAttribute(newAttribute);
 							behaviorsWithAttributes.add(newBehaviorWithAttributes);
 

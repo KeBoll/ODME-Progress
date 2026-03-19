@@ -20,13 +20,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
+import javax.swing.*;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
@@ -45,6 +42,11 @@ import odme.core.UndoableTreeModel;
 import odme.odmeeditor.ODMEEditor;
 import org.fife.util.DynamicIntArray;
 
+
+
+
+
+
 public class BehaviourToTree  extends JPanel implements MouseListener{
 
 
@@ -57,9 +59,12 @@ public class BehaviourToTree  extends JPanel implements MouseListener{
 
 	private int clickControl;
 
+	public static JTable behaviorAttributeTable;
+	public static DefaultTableModel behaviorAttributeModel;
+
 	@SuppressWarnings("unchecked")
 	public BehaviourToTree(){
-		super(new GridLayout(1, 0));
+		super(new GridLayout(1, 2));
 
 		//now construct tree of behaviours
 		ssdFileBeh = new File(ODMEEditor.fileLocation + "/"+ ODMEEditor.projName +"/"+ selectedScenario + "/"+ ODMEEditor.projName+".ssdbeh" );
@@ -119,11 +124,20 @@ public class BehaviourToTree  extends JPanel implements MouseListener{
 				JScrollPane scrollPane = new JScrollPane(tree);
 				add(scrollPane);
 
+				String[] topNames = {"Attribute", "Value"};
+				behaviorAttributeModel = new DefaultTableModel(topNames, 0);
+				behaviorAttributeTable = new JTable(behaviorAttributeModel);
+
+				JScrollPane tableScrollPane = new JScrollPane(behaviorAttributeTable);
+				add(tableScrollPane);
+
 			}catch(Exception e) {
 			}
 		} else {
 			System.out.println("Behaviour file does not exist");
 		}
+
+
 	}
 
 	public static String[][] convert(Multimap<TreePath ,String> multiMap) {
@@ -275,5 +289,6 @@ public class BehaviourToTree  extends JPanel implements MouseListener{
 
 		public void treeStructureChanged(TreeModelEvent e) {}
 	}
+
 
 }
