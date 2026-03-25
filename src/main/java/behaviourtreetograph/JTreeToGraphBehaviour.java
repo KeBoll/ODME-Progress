@@ -299,6 +299,7 @@ public class JTreeToGraphBehaviour {
 
 				JPopupMenu popupMenu = new JPopupMenu();
 				JMenuItem menuItem = new JMenuItem();
+				menuItem.setText("Add attribute");
 				if (e.getButton() == MouseEvent.BUTTON3) {
 					mxCell clickedCell = (mxCell) cell;
 					String style = clickedCell.getStyle();
