@@ -1,0 +1,71 @@
+name: Create Installers
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create_exe:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "25"
+
+      - name: Create BIG JAR
+        run: mvn clean package shade:shade
+
+      - name: JPackage Exe
+        run: jpackage --input target/ --dest apps/ --name "ODMERUN" --main-jar SESEditor-1.0-SNAPSHOT-shaded.jar --main-class odme.odmeeditor.Main --type exe --win-per-user-install --win-shortcut
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer
+          path: apps/
+
+  create_deb:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: 
+          distribution: "temurin"
+          java-version: "25"
+
+      - name: Create BIG JAR
+        run: mvn clean package shade:shade
+
+      - name: JPackage Exe
+        run: jpackage --input target/ --dest apps/ --name "ODMERUN" --main-jar SESEditor-1.0-SNAPSHOT-shaded.jar --main-class odme.odmeeditor.Main --type deb
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-installer
+          path: apps/
+
+  create_pkg: 
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: 
+          distribution: "temurin"
+          java-version: "25"
+
+      - name: Create BIG JAR
+        run: mvn clean package shade:shade
+
+      - name: JPackage Exe
+        run: jpackage --input target/ --dest apps/ --name "ODMERUN" --main-jar SESEditor-1.0-SNAPSHOT-shaded.jar --main-class odme.odmeeditor.Main --type pkg
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mac-installer
+          path: apps/
+          
