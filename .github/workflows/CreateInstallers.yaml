@@ -40,8 +40,8 @@ jobs:
       - name: Create BIG JAR
         run: mvn clean package shade:shade
 
-      - name: JPackage Exe
-        run: jpackage --input target/ --dest apps/ --name "ODMERUN" --main-jar SESEditor-1.0-SNAPSHOT-shaded.jar --main-class odme.odmeeditor.Main --type deb
+      - name: JPackage Deb
+        run: jpackage --input target/ --dest apps/ --name "ODMERUN" --main-jar SESEditor-1.0-SNAPSHOT-shaded.jar --main-class odme.odmeeditor.Main --type deb --win-per-user-install --win-shortcut
 
       - uses: actions/upload-artifact@v4
         with:
@@ -61,8 +61,8 @@ jobs:
       - name: Create BIG JAR
         run: mvn clean package shade:shade
 
-      - name: JPackage Exe
-        run: jpackage --input target/ --dest apps/ --name "ODMERUN" --main-jar SESEditor-1.0-SNAPSHOT-shaded.jar --main-class odme.odmeeditor.Main --type pkg
+      - name: JPackage Pkg
+        run: jpackage --input target/ --dest apps/ --name "ODMERUN" --main-jar SESEditor-1.0-SNAPSHOT-shaded.jar --main-class odme.odmeeditor.Main --type pkg --win-per-user-install --win-shortcut
 
       - uses: actions/upload-artifact@v4
         with:
