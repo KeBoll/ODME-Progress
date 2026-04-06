@@ -20,7 +20,7 @@ jobs:
         run: mvn clean package shade:shade
 
       - name: JPackage Exe
-        run: jpackage --input target/ --dest apps/ --name "ODMERUN" --main-jar SESEditor-1.0-SNAPSHOT-shaded.jar --main-class odme.odmeeditor.Main --type exe --win-per-user-install --win-shortcut
+        run: jpackage --input target/ --dest apps/ --name "ODMERUN" --main-jar ODME-FAT-JAR.jar --main-class odme.odmeeditor.Main --type exe --win-per-user-install --win-shortcut
 
       - uses: actions/upload-artifact@v4
         with:
@@ -41,7 +41,7 @@ jobs:
         run: mvn clean package shade:shade
 
       - name: JPackage Deb
-        run: jpackage --input target/ --dest apps/ --name "ODMERUN" --main-jar SESEditor-1.0-SNAPSHOT-shaded.jar --main-class odme.odmeeditor.Main --type deb
+        run: jpackage --input target/ --dest apps/ --name "ODMERUN" --main-jar ODME-FAT-JAR.jar --main-class odme.odmeeditor.Main --type deb
 
       - uses: actions/upload-artifact@v4
         with:
@@ -62,7 +62,7 @@ jobs:
         run: mvn clean package shade:shade
 
       - name: JPackage Pkg
-        run: jpackage --input target/ --dest apps/ --name "ODMERUN" --main-jar SESEditor-1.0-SNAPSHOT-shaded.jar --main-class odme.odmeeditor.Main --type pkg
+        run: jpackage --input target/ --dest apps/ --name "ODMERUN" --main-jar ODME-FAT-JAR.jar --main-class odme.odmeeditor.Main --type pkg
 
       - uses: actions/upload-artifact@v4
         with:
